@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+
+    <form>
+        <input type="number" class="amount" placeholder="expenditure amount"/>
+        <input type="text" class="expenditure" placeholder="reason for expenditure"/>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div class="listItems"></div>
+    <div class="total"></div>
+
+
+    <script>
+
+        function randomID() {
+            return Math.floor(Math.random() * 1000000); 
+        }
+
+        
+
+
+        var items = []; 
+
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var amount = document.querySelector('.amount').value; 
+            var expenditure = document.querySelector('.expenditure').value; 
+
+            var item = {}; 
+            item.amount = Number(amount);
+            item.expenditure = expenditure;
+            item.id = Number(randomID()); 
+
+            items.push(item);
+            
+
+            const listItem = document.createElement('li');
+            listItem.style.listStyleType = 'none';
+            listItem.innerHTML = `${item.amount} ${item.expenditure}`;
+            listItem.setAttribute('data-id', randomID()); 
+
+            const delButton = document.createElement('span');
+            delButton.className = 'delete'; 
+            delButton.style.marginLeft = '5px';
+            delButton.style.cursor = 'pointer'; 
+            delButton.innerText = 'delete'; 
+
+            listItem.appendChild(delButton); 
+
+            document.querySelector('.listItems').appendChild(listItem); 
+
+            document.querySelectorAll('.delete').forEach((db) => {
+                db.addEventListener('click', function (e) {
+                    //console.log(e.target.getAttribute('data-id')); 
+                    //console.log(e.target.parentElement.getAttribute('data-id')); remember that this works....
+                    //var id = e.target.parentElement.getAttribute('data-id'); 
+
+                    //deleteItem(id); 
+
+                    e.target.parentElement.remove(); 
+                })
+            })
+
+            /* not working for some reason that i have to find out 
+             * but is getting to console.log the id 
+
+            function deleteItem(id) {
+                console.log(id);
+                items.filter(item => { item.id !== id });
+            }
+
+            */
+
+            const total = items.reduce((acc, index) => {
+                return acc + index.amount; 
+            },0)
+
+            console.log(total); 
+
+            console.log(items);
+
+            document.querySelector('.total').innerHTML = `Total: ${total}`; 
+
+            
+         })
+
+            
+
+    
+
+
+
+
+
+
+    </script>
+</body>
+</html>
